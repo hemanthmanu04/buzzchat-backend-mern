@@ -24,6 +24,9 @@ mongoose
     console.log(error);
   });
 
+app.get("/", (request, response) => {
+  return response.status(234).send("Welcome to Buzzchat");
+});
 const server = app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
 });
