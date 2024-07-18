@@ -1,5 +1,5 @@
 import { User } from "../model/UserModel.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
 export const register = async (req, res, next) => {
