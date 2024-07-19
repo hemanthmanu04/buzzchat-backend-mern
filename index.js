@@ -12,7 +12,7 @@ const app = express();
 // Configure CORS
 app.use(
   cors({
-    origin: "https://buzzchat-frontend-mern.vercel.app",
+    origin: "*",
     methods: ["POST", "GET"],
     credentials: true,
   })
