@@ -31,7 +31,14 @@ const server = app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
 });
 
-//
+app.use(
+  cors({
+    origin: "https://buzzchat-frontend-mern.vercel.app",
+    methods: ["POST", "GET", "DELETE", "PUT"],
+    credentials: true,
+  })
+);
+
 //http://localhost:3000
 const io = new Server(server, {
   cors: {
