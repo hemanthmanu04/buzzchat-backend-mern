@@ -8,7 +8,16 @@ import { Server } from "socket.io";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// Configure CORS
+app.use(
+  cors({
+    origin: "https://buzzchat-frontend-mern.vercel.app",
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoutes);
@@ -25,21 +34,13 @@ mongoose
   });
 
 app.get("/", (request, response) => {
-  return response.status(234).send("Welcome to Buzzchat");
+  return response.status(234).send("Welcome to Buzzchat2");
 });
+
 const server = app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
 });
 
-app.use(
-  cors({
-    origin: "https://buzzchat-frontend-mern.vercel.app",
-    methods: ["POST", "GET", "DELETE", "PUT"],
-    credentials: true,
-  })
-);
-
-//http://localhost:3000
 const io = new Server(server, {
   cors: {
     origin: "https://buzzchat-frontend-mern.vercel.app",
@@ -47,17 +48,16 @@ const io = new Server(server, {
   },
 });
 
-app.use(cors());
-
 global.onlineUsers = new Map();
+
 io.on("connection", (socket) => {
   global.chatSocket = socket;
+
   socket.on("add-user", (userId) => {
     onlineUsers.set(userId, socket.id);
   });
 
   socket.on("send-msg", (data) => {
-    // Changed 'Socket' to 'socket'
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-recieve", data.message);
