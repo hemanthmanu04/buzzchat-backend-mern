@@ -8,19 +8,7 @@ import { Server } from "socket.io";
 dotenv.config();
 
 const app = express();
-
-const corsOptions = {
-  origin: "https://buzzchat-frontend-mern.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
-};
-
-// CORS configuration for Express
-app.use(cors(corsOptions));
-
-// Ensure preflight requests are handled
-app.options("*", cors(corsOptions));
-
+app.use(cors());
 app.use(express.json());
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoutes);
@@ -37,24 +25,24 @@ mongoose
   });
 
 app.get("/", (request, response) => {
-  return response.status(200).send("Welcome to Buzzchat");
+  return response.status(234).send("Welcome to Buzzchat");
 });
-
 const server = app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
 });
 
-// CORS configuration for Socket.IO
+//
+//http://localhost:3000
 const io = new Server(server, {
   cors: {
     origin: "https://buzzchat-frontend-mern.vercel.app",
-    methods: ["GET", "POST"],
     credentials: true,
   },
 });
 
-global.onlineUsers = new Map();
+app.use(cors());
 
+global.onlineUsers = new Map();
 io.on("connection", (socket) => {
   global.chatSocket = socket;
   socket.on("add-user", (userId) => {
@@ -62,6 +50,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-msg", (data) => {
+    // Changed 'Socket' to 'socket'
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-recieve", data.message);
