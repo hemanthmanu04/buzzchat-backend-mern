@@ -6,8 +6,8 @@ import messageRoutes from "./routes/messagesRoutes.js";
 import dotenv from "dotenv";
 import { Server } from "socket.io";
 dotenv.config();
-
 const app = express();
+app.use(express.json());
 
 // Configure CORS
 app.use(
@@ -18,11 +18,10 @@ app.use(
   })
 );
 
-app.use(express.json());
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoutes);
 
-const port = process.env.PORT || 5000; // Provide a default port if not specified in .env
+const port = process.env.PORT || 5005; // Provide a default port if not specified in .env
 
 mongoose
   .connect(process.env.MONGO_URL)
