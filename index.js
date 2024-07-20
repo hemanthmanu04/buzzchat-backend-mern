@@ -9,10 +9,9 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Configure CORS
 app.use(
   cors({
-    origin: "*",
+    origin: ["*"],
     methods: ["POST", "GET"],
     credentials: true,
   })
@@ -33,7 +32,7 @@ mongoose
   });
 
 app.get("/", (request, response) => {
-  return response.status(234).send("Welcome to Buzzchat2");
+  return response.status(234).send("Welcome to Buzzchat updated");
 });
 
 const server = app.listen(port, () => {

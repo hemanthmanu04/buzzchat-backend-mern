@@ -76,7 +76,6 @@ export const getAllusers = async (req, res, next) => {
       "avatarImage",
       "_id",
     ]);
-    console.log(users);
     return res.json(users);
   } catch (exc) {
     next(exc);
