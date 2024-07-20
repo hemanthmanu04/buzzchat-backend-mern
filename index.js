@@ -21,7 +21,7 @@ app.use(
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoutes);
 
-const port = process.env.PORT || 5005; // Provide a default port if not specified in .env
+const port = process.env.PORT;
 
 mongoose
   .connect(process.env.MONGO_URL)
