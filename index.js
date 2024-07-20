@@ -5,13 +5,16 @@ import userRoutes from "./routes/userRoutes.js";
 import messageRoutes from "./routes/messagesRoutes.js";
 import dotenv from "dotenv";
 import { Server } from "socket.io";
+
 dotenv.config();
+
 const app = express();
 app.use(express.json());
 
 app.use(
   cors({
-    origin: ["*"],
+    origin:
+      "https://buzzchat-frontend-mern-hemanth-kumar-ss-projects.vercel.app", // your frontend URL
     methods: ["POST", "GET"],
     credentials: true,
   })
@@ -20,7 +23,7 @@ app.use(
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoutes);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 mongoose
   .connect(process.env.MONGO_URL)
@@ -28,11 +31,11 @@ mongoose
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.log(error);
+    console.log("Error connecting to MongoDB:", error.message);
   });
 
-app.get("/", (request, response) => {
-  return response.status(234).send("Welcome to Buzzchat updated");
+app.get("/", (req, res) => {
+  res.status(234).send("Welcome to Buzzchat updated");
 });
 
 const server = app.listen(port, () => {

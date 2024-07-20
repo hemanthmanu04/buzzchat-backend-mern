@@ -69,7 +69,7 @@ export const setAvatar = async (req, res, next) => {
 
 export const getAllusers = async (req, res, next) => {
   try {
-    const objectId = new mongoose.Types.ObjectId(req.params.id);
+    const objectId = mongoose.Types.ObjectId(req.params.id);
     const users = await User.find({ _id: { $ne: objectId } }).select([
       "email",
       "username",
